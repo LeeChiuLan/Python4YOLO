@@ -69,6 +69,11 @@ class parser(argparse.ArgumentParser):
 			help="boolean indicating if CUDA GPU should be used",
 			metavar="<U>",
         )
+		self.add_argument(
+			"--dont_show", "-dont", type=bool, default=0, required=False,
+			help="boolean indicating not to display any pictures",
+			metavar="<DONT>",
+        )
 # ----------------------------------
 # class: SaveImage
 # ----------------------------------
@@ -124,14 +129,16 @@ def detect_camera(net, resolution=416):
         result = np.asarray(image)   
         cv2.putText(result, text=fps, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
             fontScale=0.50, color=(0, 255, 0), thickness=2)
-        cv2.namedWindow("result")
+        
 	    # show the output frame
-        cv2.imshow("result", result)
+        if to_show:
+            cv2.namedWindow("result")
+            cv2.imshow("result", result)
         #----
-        if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
-            break
-        if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
-            break
+            if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
+                break
+            if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
+                break
 
     # do a bit of cleanup
     cv2.destroyAllWindows()
@@ -170,14 +177,16 @@ def detect_video( net, video_path, resolution=416):
         #----Text&result
         cv2.putText(result, text=fps_txt, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
 					fontScale=0.50, color=(0, 255, 0), thickness=2)
-        cv2.namedWindow("result")
-        cv2.imshow("result", result)
+
         if out: out.write(result)
-        #----
-        if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
-            break
-        if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
-            break
+        if to_show:
+            cv2.namedWindow("result")
+            cv2.imshow("result", result)
+            #----
+            if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
+                break
+            if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
+                break
 			
     cap.release()
     fps_imutils.stop()
@@ -320,6 +329,10 @@ if args.save:
     output_top_dir = outputDir
     save_handler=SaveImage()
 
+# 
+to_show=1
+if args.dont_show==1:
+    to_show=None
 
 
 nms_threshold = 0.4
@@ -333,7 +346,6 @@ with open(args.classes, 'r') as f:
 COLORS = np.random.uniform(0, 255, size=(len(classes), 3))
 
 # read pre-trained model and config file
-#net = cv2.dnn.readNet(args.weights, args.config)
 net = cv2.dnn.readNetFromDarknet(args.config, args.weights)
 
 if args.use_gpu:
@@ -353,7 +365,7 @@ if args.image:
         save_handler.set_filePath(img_path)
         save_handler.output_result_image(image)
         save_handler.display()
-    cv2.imshow("object detection", image)
+    if to_show: cv2.imshow("object detection", image)
     cv2.waitKey()
     cv2.destroyAllWindows()
     
