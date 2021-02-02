@@ -114,13 +114,13 @@ class SaveImage:
 # ----------------------------------
 # function: detect_camera()
 # ----------------------------------
-def detect_camera(net):
+def detect_camera(net, resolution=416):
     vs = VideoStream(src=0).start()
     fps = ""
     while True:
         frame = vs.read()
         #rame = imutils.resize(frame, width=400)
-        image = detect_image(net, frame)
+        image = detect_image(net, frame, resolution=resolution)
         result = np.asarray(image)   
         cv2.putText(result, text=fps, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
             fontScale=0.50, color=(0, 255, 0), thickness=2)
@@ -140,7 +140,7 @@ def detect_camera(net):
 # ----------------------------------
 # function: detect_video()
 # ----------------------------------
-def detect_video( net, video_path):
+def detect_video( net, video_path, resolution=416):
     cap = cv2.VideoCapture(video_path)
     cap.set(cv2.CAP_PROP_POS_MSEC,4*1000)
     frameRate = cap.get(5)
@@ -162,7 +162,7 @@ def detect_video( net, video_path):
 
         t1 = time.time()
 		
-        image = detect_image(net, frame)
+        image = detect_image(net, frame, resolution=resolution)
         result = np.asarray(image)
         fps_imutils.update()
         fps = (fps + (1./(time.time()-t1))) / 2
@@ -365,7 +365,7 @@ if args.video:
     	if not os.path.exists(output_video_dir):
     	    os.makedirs(output_video_dir)
     video_url = args.video
-    detect_video(net, video_url)
+    detect_video(net, video_url,resolution=RESIZED_WIDTH)
 
 if  isCamera :
-    detect_camera(net)
+    detect_camera(net,resolution=RESIZED_WIDTH)
