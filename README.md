@@ -48,9 +48,9 @@ optional arguments:
   <li>--confidence <CF>, -cf <CF><br>
                         minimum probability to filter weak detections</li>
                         [default: 0.500000]</li>
-  <li>--save <S>, -s <S>    boolean indicating to save the output images or the<br>
+  <li>--save , -s    boolean indicating to save the output images or the<br>
                         testing video</li>
-  <li>--use_gpu <U>, -u <U><br>
+  <li>--use_gpu, -u <br>
                         boolean indicating if CUDA GPU should be used</li>
   <li>--dont_show <DONT>, -dont <DONT><br>
                         boolean indicating not to display any pictures</li>
