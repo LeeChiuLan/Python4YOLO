@@ -27,8 +27,8 @@ My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep L
   
   [-h] [--outputDir <O>] [--image <I>] [--video <V>]
                       --config <C> --weights <W> --classes <CL>
-                      [--confidence] [--save <S>] [--use_gpu <U>]
-                      [--dont_show <DONT>]
+                      [--confidence] [--save] [--use_gpu]
+                      [--dont_show]
 </div>
 <div>
 optional arguments:
