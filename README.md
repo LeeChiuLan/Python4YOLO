@@ -1,16 +1,15 @@
 # Python4YOLO
 Utilities for YOLOv4
 
-
-Lee, Chiu-Lan(李秋蘭)  
 <br>
+Lee, Chiu-Lan(李秋蘭)  
 My Website: <a href="https://leechiulan.github.io" target="_blank">https://leechiulan.github.io</a><br>
-<br><br>
+<br>
 My GitHub : <a href="https://github.com/LeeChiuLan" target="_blank">https://github.com/LeeChiuLan</a><br>
-<br><br>
-My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep Learning->[Demo](https://youtu.be/HJgLzsmGjpk)
+<br>
+My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep Learning [[Demo](https://youtu.be/HJgLzsmGjpk)]
     
-
+<br>
 ## Programs
 - out4yoloLabel.py
   - 
@@ -28,7 +27,7 @@ My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep L
   
   [-h] [--outputDir <O>] [--image <I>] [--video <V>]
                       --config <C> --weights <W> --classes <CL>
-                      [--confidence <CF>] [--save <S>] [--use_gpu <U>]
+                      [--confidence] [--save <S>] [--use_gpu <U>]
                       [--dont_show <DONT>]
 </div>
 <div>
