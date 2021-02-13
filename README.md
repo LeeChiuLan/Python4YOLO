@@ -5,10 +5,9 @@ Utilities for YOLOv4
 Lee, Chiu-Lan(李秋蘭)
 <br>
 My Website: <a href="https://leechiulan.github.io" target="_blank">https://leechiulan.github.io</a><br>
-<br>
 My GitHub : <a href="https://github.com/LeeChiuLan" target="_blank">https://github.com/LeeChiuLan</a><br>
-<br>
-My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep Learning [Demo](https://youtu.be/HJgLzsmGjpk)<br>
+
+My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep Learning [ [Demo](https://youtu.be/HJgLzsmGjpk) ]<br>
     
 
 ## Programs
@@ -22,6 +21,7 @@ My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep L
   - yolo detection
   
 <hr> 
+
 ## yolo_detector.py
 <div>
   usage: yolo_detector.py 
