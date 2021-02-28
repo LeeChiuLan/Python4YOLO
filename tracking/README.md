@@ -1,4 +1,4 @@
-# Python4YOLO
+# YOLOv4 + Deep SORT by OpenCV.dnn
 
 
 ## yolo_deep_sort_main.py
