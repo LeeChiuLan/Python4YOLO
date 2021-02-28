@@ -1,6 +1,6 @@
-# YOLOv4 + Deep SORT by OpenCV.dnn
+# YOLOv4 + Deep SORT with OpenCV.dnn
 
-
+[![Alt text](yolov4-deep-sort-Opencv.dnn.gif)](https://youtu.be/mQXgsk38I7w)
 ## yolo_deep_sort_main.py
 <div>
   usage: Detection and Tracking with OpenCV.dnn
