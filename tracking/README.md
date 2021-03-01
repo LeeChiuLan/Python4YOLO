@@ -1,9 +1,8 @@
 # YOLOv4 + Deep SORT with OpenCV.dnn
-The raw video from Multiple Object Tracking Benchmark 
-### MOT17-02-FRCNN[[link](https://motchallenge.net/vis/MOT17-02-FRCNN)]
+The raw video from Multiple Object Tracking Benchmark - MOT17-02-FRCNN[[link](https://motchallenge.net/vis/MOT17-02-FRCNN)]
 
+#### YOLOv4-Tiny + Deep SORT,  GPU-1050Ti CUDA Enabled
 [![Alt text](yolov4-deep-sort-Opencv.dnn.gif)](https://youtu.be/mQXgsk38I7w)
-#### YOLOv4-Tiny GPU-1050Ti
 
 ## yolo_deep_sort_main.py
 <div>
