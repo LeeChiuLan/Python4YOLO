@@ -1,11 +1,11 @@
 # YOLOv4 + Deep SORT with OpenCV.dnn
-Raw data from Multiple Object Tracking Benchmark 
+The raw video from Multiple Object Tracking Benchmark 
 ### MOT17-02-FRCNN[[link](https://motchallenge.net/vis/MOT17-02-FRCNN)]
 
 [![Alt text](yolov4-deep-sort-Opencv.dnn.gif)](https://youtu.be/mQXgsk38I7w)
 ## yolo_deep_sort_main.py
 <div>
-  usage: Detection and Tracking with OpenCV.dnn
+  usage: Detection and Tracking with OpenCV.dnn (YOLOv4 + Deep SORT)
   
   [-h] [--outputDir <O>] [--video <V>] --config
                                               <C> --weights <W> --classes <CL>
@@ -41,9 +41,9 @@ optional arguments:
 ```bash
 python3
 Tensorflow
-OpenCV
+OpenCV (version >= 4.4.0)
 
-# the others packages should be installed according to the messages shown on while executing this program 
+# the others packages should be installed according to the messages shown while executing this program 
 ```
 #### 2. Deep SORT
 
@@ -83,6 +83,7 @@ To modify "net/%s:0" => "%s:0" 83 & 85 lines in 'yolov3_deepsort/tools/generate_
 
 If your environment is ready with NVIDIA GPUs CUDA also the OpenCV, then make speed faster  by add '-u 1'.
 reference to [How to use OpenCV’s “dnn” module with NVIDIA GPUs, CUDA, and cuDNN](https://www.pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/) by Adrian Rosebrock
+Note: The OpenCV’s version is more than 4.4.0
 ```bash
 # option '--use_gpu, -u '
 python3 yolo_deep_sort_main.py --weights yolov4.weights --config yolov4.cfg --classes coco.names --video MOT17-02-FRCNN-raw.webm -u 1
