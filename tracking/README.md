@@ -69,7 +69,11 @@ In this article we will use those files from [AlexeyAB/darknet](https://github.c
 python3 yolo_deep_sort_main.py --weights yolov4.weights --config yolov4.cfg --classes coco.names --video MOT17-02-FRCNN-raw.webm
 ```
 
-#### Error
+#### Fine tune
+
+```bash
+Error in 'net/images:0'
+```
 ![](net-error-00.png)
 ```bash
 Try to change "net/%s:0" => "%s:0" 83 & 85 lines in 'yolov3_deepsort/tools/generate_detections.py'
