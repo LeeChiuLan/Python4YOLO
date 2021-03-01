@@ -15,10 +15,10 @@ My Thesis : Ball Detection and Tracking in Badminton Game Videos Based on Deep L
   - To generate the YOLO format(.txt)
 - yoloAutoLabel_4_VocFormat.py
   - To generate the Pascal VOC .xml files
-- tracking/yolo_deep_sort_main.py
-  - Detection and Tracking with OpenCV.dnn
 - yolo_detector.py
   - yolo detection
+- tracking/yolo_deep_sort_main.py
+  - Detection and Tracking with OpenCV.dnn (Deep SORT)
   
 <hr> 
 
