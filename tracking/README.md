@@ -99,3 +99,9 @@ reference to [How to use OpenCV’s “dnn” module with NVIDIA GPUs, CUDA, and
 # option '--use_gpu, -u'
 python3 yolo_deep_sort_main.py --weights yolov4.weights --config yolov4.cfg --classes coco.names --video MOT17-02-FRCNN-raw.webm -u 1
 ```
+#### Show the detections
+
+change 'Show_Detect=1' in Line #132 as below:
+```bash
+def detect_tracking(net, image, Show_Detect=1):
+```
