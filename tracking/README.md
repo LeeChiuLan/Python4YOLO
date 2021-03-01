@@ -3,7 +3,8 @@ The raw video from Multiple Object Tracking Benchmark
 ### MOT17-02-FRCNN[[link](https://motchallenge.net/vis/MOT17-02-FRCNN)]
 
 [![Alt text](yolov4-deep-sort-Opencv.dnn.gif)](https://youtu.be/mQXgsk38I7w)
-YOLOv4-Tiny GPU-1050Ti
+#### YOLOv4-Tiny GPU-1050Ti
+
 ## yolo_deep_sort_main.py
 <div>
   usage: Detection and Tracking with OpenCV.dnn (YOLOv4 + Deep SORT)
@@ -43,9 +44,9 @@ optional arguments:
 python3
 Tensorflow
 OpenCV (version >= 4.4.0 suporting YOLOv4)
-
-# the others packages should be installed according to the messages shown while executing this program 
 ```
+The others packages should be installed according to the messages shown while executing this program 
+
 #### 2. Deep SORT
 
 reference to [theAIGuysCode/yolov3_deepsort](https://github.com/theAIGuysCode/yolov3_deepsort.git)
@@ -57,9 +58,8 @@ git clone https://github.com/theAIGuysCode/yolov3_deepsort.git
 ```
 #### 3. YOLOv4
 
-```bash
-You'd prepare your trained model by weights, config file, lasses names
-```
+You'd prepare your trained model by weights, config file, lasses names.
+
 In this article we will use those files from [AlexeyAB/darknet](https://github.com/AlexeyAB/darknet): yolov4.weights, yolov4.cfg, coco.names
 
 ## How to execute program
@@ -87,7 +87,8 @@ To modify "net/%s:0" => "%s:0" 83 & 85 lines in 'yolov3_deepsort/tools/generate_
 #### Run with CUDA
 
 If your environment is ready with NVIDIA GPUs CUDA also the OpenCV, then make speed faster  by add '-u 1'.
-#### reference to [How to use OpenCV’s “dnn” module with NVIDIA GPUs, CUDA, and cuDNN](https://www.pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/) by Adrian Rosebrock.
+
+reference to [How to use OpenCV’s “dnn” module with NVIDIA GPUs, CUDA, and cuDNN](https://www.pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/) by Adrian Rosebrock.
 (Note: change the OpenCV’s version to 4.4.0)
 ```bash
 # option '--use_gpu, -u'
