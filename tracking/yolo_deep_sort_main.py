@@ -1,4 +1,4 @@
-
+import gc
 from imutils.video import VideoStream
 import imutils
 import cv2
@@ -21,13 +21,10 @@ from yolov3_deepsort.deep_sort import nn_matching
 from yolov3_deepsort.deep_sort.detection import Detection
 from yolov3_deepsort.deep_sort.tracker import Tracker
 from yolov3_deepsort.tools import generate_detections as gdet
-import imutils.video
+#import imutils.video
 import tensorflow as tf
 
 warnings.filterwarnings('ignore')
-
-RESIZED_WIDTH=416
-RESIZED_HEIGHT=416
 
 class parser(argparse.ArgumentParser):
 	def __init__(self,description):
@@ -68,16 +65,6 @@ class parser(argparse.ArgumentParser):
 			metavar="<U>",
         )
 # ----------------------------------
-# class: removeDir
-# ----------------------------------
-class removeDir:
-   def __init__(self,dir):
-      for root, dirs, files in os.walk(dir, topdown=False):
-         for name in files:
-            os.remove(os.path.join(root, name))
-         for name in dirs:
-            os.rmdir(os.path.join(root, name))
-# ----------------------------------
 # function: draw_prediction()
 # ----------------------------------
 def draw_prediction(img, classname, confidence, x, y, x_plus_w, y_plus_h, color,position=0):
@@ -87,93 +74,6 @@ def draw_prediction(img, classname, confidence, x, y, x_plus_w, y_plus_h, color,
         cv2.putText(img, label, (x,y_plus_h+12), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
     else:
         cv2.putText(img, label, (x-10,y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-
-# ----------------------------------
-# function: getIndicesByID()
-# ----------------------------------
-def getIndicesByID(indices, class_ids,classesNum,keyID):
-    outStacks =[[] for x in range( classesNum )]
-    #print("classesNum="+str(classesNum))
-    stacks=[[] for x in range( classesNum )]
-    for i in indices:
-        stacks[class_ids[i[0]]].append(i)
-    for k in stacks[keyID]:
-        i = k[0]
-        outStacks[keyID].append(k)
-                
-    return outStacks[keyID]
-# ----------------------------------
-# class: NetBlob
-# ----------------------------------
-class NetBlob:
-    def __init__(self,classid,classname,indices,class_ids,boxes,confidences,classesNum,color=(0,0,0),callback=[]):
-    	self.classid=classid
-    	self.name=classname
-    	self.indices=indices
-    	self.class_ids=class_ids
-    	self.boxes=boxes
-    	self.confidences=confidences
-    	self.classesNum=classesNum
-    	self.color=color
-    	self.getMyInices()
-    	
-    	self.callback=callback
-    	self.Database=None
-
-    def setcolor(self,color):
-    	self.color=color
-    	
-    def getMyInices(self):
-    	self.indices=getIndicesByID(self.indices, self.class_ids,self.classesNum,self.classid)
-		
-    def getInices(self):
-    	num=0
-    	for i in self.indices:
-    		num = num + 1
-    	#if num == 0:
-    		#num = None
-    	return self.indices, num
-
-    def draw(self,img):
-    	for i in self.indices:
-    		i = i[0]
-    		box = self.boxes[i]
-    		x = round(box[0])
-    		y = round(box[1])
-    		w = round(box[2])
-    		h = round(box[3])
-    		confidence=self.confidences[i]
-    		draw_prediction(img, self.name, confidence, x, y, x+w, y+h, self.color)
-    def setCallback(self,callback):
-    	self.callback=callback
-    		
-    def executeActions(self):
-    	for func in zip(self.callback):
-    		func()
-# ----------------------------------
-# class: BBall
-# ----------------------------------
-class BBall(NetBlob):
-	def executeActions(self,image=None,showOn=1):
-		super().executeActions()
-		self.oldXY=None
-		for i in self.indices:
-			i = i[0]
-			box = self.boxes[i]
-			x = round(box[0])
-			y = round(box[1])
-			w = round(box[2])
-			h = round(box[3])
-			self.oldXY=[int(x+w/2),int(y+h/2),w,h]
-			if image is not None and self.oldXY is not None:
-				x=self.oldXY[0]
-				y=self.oldXY[1]
-				w=self.oldXY[2]
-				h=self.oldXY[3]
-				cv2.circle(image,((int)(x),(int)(y)), 5, (0,0,255), -1)
-				label =  "({},{})".format(x,y)
-				if showOn: print("({})x,y={}".format(self.__class__.__name__,label))
-				cv2.putText(image, label, (x,y+int(h/2)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, self.color, 2)
 			     
 # ----------------------------------
 # function: get_output_layers()
@@ -229,7 +129,7 @@ def detect_image_by_net(net, image, conf_threshold=0.5):
 # ----------------------------------
 # function: detect_tracking()
 # ----------------------------------
-def detect_tracking(net, image, showOn=1, writeVideo=None):
+def detect_tracking(net, image, Show_Detect=0):
     global classes,conf_threshold
 
     #start_time = time.time()
@@ -248,7 +148,8 @@ def detect_tracking(net, image, showOn=1, writeVideo=None):
     	w = box[2]
     	h = box[3]
     	class_id=class_ids[i]
-    	draw_prediction(image, classes[class_id], confidences[i], round(x), round(y), round(x+w), round(y+h),COLORS[class_id],position=1)
+    	if Show_Detect:
+    	    draw_prediction(image, classes[class_id], confidences[i], round(x), round(y), round(x+w), round(y+h),COLORS[class_id],position=1)
 		    	
     	# update to new
     	new_class_ids.append(class_ids[i])
@@ -284,65 +185,56 @@ def detect_tracking(net, image, showOn=1, writeVideo=None):
             cv2.rectangle(image, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), color, 2)
             cv2.rectangle(image, (int(bbox[0]), int(bbox[1]-30)), (int(bbox[0])+(len(class_name)+len(str(track.track_id)))*17, int(bbox[1])), color, -1)
             cv2.putText(image, class_name + "-" + str(track.track_id),(int(bbox[0]), int(bbox[1]-10)),0, 0.75, (255,255,255),2)
-
-    #for det in detections:
-    #	bbox = det.to_tlbr()
-    #	score = "%.2f" % round(det.confidence * 100, 2) + "%"
-    #	cv2.rectangle(image, (int(bbox[0]), int(bbox[1])), (int(bbox[2]), int(bbox[3])), (255, 0, 0), 2)
-    #	if len(_classes) > 0:
-    #        cls = det.class_name
-    #        cv2.putText(image, str(cls) + " " + score, (int(bbox[0]), int(bbox[3])), 0,
-	#					1.5e-3 * image.shape[0], (0, 255, 0), 1)
-
-    if writeVideo:
-    	writeVideo.write(image)
 		
     return image
-# ----------------------------------
-# function: detect_image()
-# ----------------------------------
-def detect_image(net, image, showOn=1):
-    global classes,conf_threshold
 
-    #start_time = time.time()
-    
-    indices,class_ids,boxes,confidences = detect_image_by_net(net,image,conf_threshold=conf_threshold)
-    indices2,class_ids2,boxes2,confidences2 = indices,class_ids,boxes,confidences
-    if Court_id is not None:
-    	court_netblob=NetBlob(Court_id,classes[Court_id],indices2,class_ids2,boxes2,confidences2,classesNum,COLORS[Court_id])
-    	court_netblob.draw(image)
-    	
-    ball_netblob=BBall(Ball_id,classes[Ball_id],indices,class_ids,boxes,confidences,classesNum,COLORS[Ball_id])
-    #ball_netblob.executeActions(image,showOn=showOn)
-    ball_netblob.draw(image)
-    
-    #print("--- %s seconds ---" % (time.time() - start_time))	
-    return image
 # ----------------------------------
 # function: detect_camera()
 # ----------------------------------
 def detect_camera(net):
     vs = VideoStream(src=0).start()
-    fps = ""
+    
+    out = None
+    if writeVideo_flag:
+        fileTag = 'by_camera'
+        output_video_path = os.path.sep.join([output_path,'output_dsort_'+fileTag+'.avi'])
+        frame = vs.read()
+        h, w = frame.shape[0], frame.shape[1]
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        out = cv2.VideoWriter(output_video_path, fourcc, 30, (w, h))
+          
+    fps = 0.0
+    fps_imutils = imutils.video.FPS().start()
+    
     while True:
         frame = vs.read()
         #rame = imutils.resize(frame, width=400)
-        image = detect_image(net, frame)
-        result = np.asarray(image)   
-        cv2.putText(result, text=fps, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-            fontScale=0.50, color=(0, 255, 0), thickness=2)
+        t1 = time.time()
+        image = detect_tracking(net, frame)
+        result = np.asarray(image)  
+        fps_imutils.update()
+        fps = (fps + (1./(time.time()-t1))) / 2
+        fps_txt = "FPS: %f" %  (fps)
+        #----Text&result
+        cv2.putText(result, text=fps_txt, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+                        fontScale=0.50, color=(0, 255, 0), thickness=2)
         cv2.namedWindow("result")
-	    # show the output frame
         cv2.imshow("result", result)
+        if out:
+            out.write(image)
         #----
         if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
             break
         if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
             break
 
-    # do a bit of cleanup
-    cv2.destroyAllWindows()
+    fps_imutils.stop()
+    print('imutils FPS: {}'.format(fps_imutils.fps()))
+    if out:
+        out.release()
     vs.stop()
+    gc.collect()
+    cv2.destroyAllWindows()
 				
 # ----------------------------------
 # function: detect_video()
@@ -350,7 +242,7 @@ def detect_camera(net):
 def detect_video( net, video_path):
     cap = cv2.VideoCapture(video_path)
     cap.set(cv2.CAP_PROP_POS_MSEC,4*1000)
-    frameRate = cap.get(5)
+    
     out = None
     if writeVideo_flag:
         filetemp, fileExtension = os.path.splitext(video_path)
@@ -364,39 +256,35 @@ def detect_video( net, video_path):
     fps = 0.0
     fps_imutils = imutils.video.FPS().start()
 	
-    divisor=2
-    #fps = "FPS: %d" %  (frameRate)
-    frame_count = 0
     while (cap.isOpened()):
-        frameId = cap.get(1)
         ret, frame = cap.read()
         if (ret != True) :
                 break
 
         t1 = time.time()
 		
-        if divisor > 0:  # input all the frames
-        #if(frameId % divisor == 0):
-            image = detect_tracking(net, frame,writeVideo=out)
-            result = np.asarray(image)
-            fps_imutils.update()
-            fps = (fps + (1./(time.time()-t1))) / 2
-            fps_txt = "FPS: %f" %  (fps)
-            #----Text&result
-            cv2.putText(result, text=fps_txt, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
+        image = detect_tracking(net, frame)
+        result = np.asarray(image)
+        fps_imutils.update()
+        fps = (fps + (1./(time.time()-t1))) / 2
+        fps_txt = "FPS: %f" %  (fps)
+        #----Text&result
+        cv2.putText(result, text=fps_txt, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                         fontScale=0.50, color=(0, 255, 0), thickness=2)
-            cv2.namedWindow("result")
-            cv2.imshow("result", result)
-            #----
-            if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
-                break
-            if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
-                break
+        cv2.namedWindow("result")
+        cv2.imshow("result", result)
+        if out:
+            out.write(image)
+        #----
+        if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
+            break
+        if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
+            break
 				
     cap.release()
     fps_imutils.stop()
     print('imutils FPS: {}'.format(fps_imutils.fps()))
-    if writeVideo_flag:
+    if out:
         out.release()
     
     cv2.destroyAllWindows()
@@ -434,22 +322,19 @@ files_exist_check(files_list)
 # show information on the process ID
 myProcessID=os.getpid()
 idName='{}_{}'.format("PID", myProcessID)
-print("[INFO] process ID: "+idName)
 
 # initialize the output/
 outputDir=args.outputDir
-checkDir=os.path.exists(outputDir)
-if checkDir:
-	#removeDir(outputDir)
-	ok=0
-else:
+if not os.path.exists(outputDir):
 	os.makedirs(outputDir)
-print("[INFO] outputDir: "+outputDir)
 output_top_dir = outputDir
 output_path = os.path.sep.join([output_top_dir,idName])
 if not os.path.exists(output_path):
    os.makedirs(output_path)
-	
+
+# Model setup
+RESIZED_WIDTH=416
+RESIZED_HEIGHT=416
 inpWidth = RESIZED_WIDTH
 inpHeight = RESIZED_HEIGHT
 nms_threshold = 0.4
@@ -466,24 +351,14 @@ for x in range(classesNum):
     rgb = [int(256*i) for i in colorsys.hls_to_rgb(h,l,s)]
     COLORS.append(rgb)
 
-# check out the objects' ID
-Court_id=Ball_id=None
-
-for i in range(classesNum) :
-    if classes[i] == 'corner':
-    	Court_id=i
-    if classes[i] == 'ball':
-    	Ball_id=i
-#print("Court_id={},Ball_id={}".format(Court_id,Ball_id))
-
 # one dnn model
 config=args.config
 weights=args.weights
-	
+
 # read pre-trained model and config file
-#net = cv2.dnn.readNet(weights, config)
 net = cv2.dnn.readNetFromDarknet(config, weights)
 
+# enable CUDA
 if args.use_gpu:
     net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
     net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
@@ -508,8 +383,7 @@ if len(physical_devices) > 0:
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
 	
 tracking = True
-writeVideo_flag = True
-
+writeVideo_flag = False
 	
 isCamera = True 
 if args.video:
@@ -519,3 +393,5 @@ if args.video:
 
 if  isCamera :
     detect_camera(net)
+    
+print("[INFO] outputDir: "+output_path)
