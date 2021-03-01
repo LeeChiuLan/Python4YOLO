@@ -384,7 +384,7 @@ if len(physical_devices) > 0:
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
 	
 tracking = True
-writeVideo_flag = False
+writeVideo_flag = True
 	
 isCamera = True 
 if args.video:

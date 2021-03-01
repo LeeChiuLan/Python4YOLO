@@ -79,6 +79,9 @@ As the program is running , to click the video window then press the [ESC] key t
 #### Auto output the results
 You can find the output results under the folder 'outputDir' with its own PID there.
 
+To disable this function by setting 'writeVideo_flag = False'  in Line #387.
+
+
 #### Checking
 
 ```bash
@@ -105,3 +108,6 @@ change 'Show_Detect=1' in Line #132 as below:
 ```bash
 def detect_tracking(net, image, Show_Detect=1):
 ```
+#### Run with Camera
+
+if none of the given videos it will be run with camera. 
