@@ -47,22 +47,23 @@ OpenCV
 ```
 #### 2. Deep SORT
 
+reference to [theAIGuysCode/yolov3_deepsort](https://github.com/theAIGuysCode/yolov3_deepsort.git)
 ```bash
-# change directory to tracking/
+# change directory to tracking
 cd tracking
-# [theAIGuysCode/yolov3_deepsort](https://github.com/theAIGuysCode/yolov3_deepsort.git)
+
 git clone https://github.com/theAIGuysCode/yolov3_deepsort.git
 ```
 #### 3. YOLOv4
 
 ```bash
 You'd prepare your trained model by weights, config file, lasses names
-In this article we will use those files from [AlexeyAB/darknet](https://github.com/AlexeyAB/darknet): yolov4.weights, yolov4.cfg, coco.names
 ```
+In this article we will use those files from [AlexeyAB/darknet](https://github.com/AlexeyAB/darknet): yolov4.weights, yolov4.cfg, coco.names
 
 ## How to execute program
 
-#### 1. Command line
+#### Command line
 
 ```bash
 python3 yolo_deep_sort_main.py --weights yolov4.weights --config yolov4.cfg --classes coco.names --video MOT17-02-FRCNN-raw.webm
