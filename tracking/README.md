@@ -1,7 +1,7 @@
 # YOLOv4 + Deep SORT with OpenCV.dnn
-The raw video from Multiple Object Tracking Benchmark - MOT17-02-FRCNN[[link](https://motchallenge.net/vis/MOT17-02-FRCNN)]
+The raw video from Multiple Object Tracking Benchmark - MOT17-02-FRCNN [[link](https://motchallenge.net/vis/MOT17-02-FRCNN)]
 
-#### YOLOv4-Tiny + Deep SORT,  GPU-1050Ti CUDA Enabled
+#### [Demo] YOLOv4-Tiny + Deep SORT,  GPU-1050Ti CUDA Enabled
 [![Alt text](yolov4-deep-sort-Opencv.dnn.gif)](https://youtu.be/mQXgsk38I7w)
 
 ## yolo_deep_sort_main.py
@@ -66,14 +66,20 @@ In this article we will use those files from [AlexeyAB/darknet](https://github.c
 #### Command line
 
 ```bash
-# test with yolov4
 python3 yolo_deep_sort_main.py --weights yolov4.weights --config yolov4.cfg --classes coco.names --video MOT17-02-FRCNN-raw.webm
-
-# test with yolov4-tiny
+```
+if test with yolov4-tiny
+```bash
 python3 yolo_deep_sort_main.py --weights yolov4-tiny.weights --config yolov4-tiny.cfg --classes coco.names --video MOT17-02-FRCNN-raw.webm
 ```
 
-#### Fine tune
+#### Abort program
+As the program is running , to click the video window then press the [ESC] key to stop the program.
+
+#### Auto output the results
+You can find the output results under the folder 'outputDir' with its own PID there.
+
+#### Checking
 
 ```bash
 if got error in 'net/images:0'
