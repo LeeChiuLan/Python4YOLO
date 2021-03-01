@@ -41,7 +41,7 @@ optional arguments:
 ```bash
 python3
 Tensorflow
-OpenCV (version >= 4.4.0)
+OpenCV (version >= 4.4.0 suporting YOLOv4)
 
 # the others packages should be installed according to the messages shown while executing this program 
 ```
@@ -82,8 +82,8 @@ To modify "net/%s:0" => "%s:0" 83 & 85 lines in 'yolov3_deepsort/tools/generate_
 #### Run with CUDA
 
 If your environment is ready with NVIDIA GPUs CUDA also the OpenCV, then make speed faster  by add '-u 1'.
-reference to [How to use OpenCV’s “dnn” module with NVIDIA GPUs, CUDA, and cuDNN](https://www.pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/) by Adrian Rosebrock
-Note: The OpenCV’s version is more than 4.4.0
+reference to [How to use OpenCV’s “dnn” module with NVIDIA GPUs, CUDA, and cuDNN](https://www.pyimagesearch.com/2020/02/03/how-to-use-opencvs-dnn-module-with-nvidia-gpus-cuda-and-cudnn/) by Adrian Rosebrock.
+(Note: The OpenCV’s version should be more than 4.4.0)
 ```bash
 # option '--use_gpu, -u '
 python3 yolo_deep_sort_main.py --weights yolov4.weights --config yolov4.cfg --classes coco.names --video MOT17-02-FRCNN-raw.webm -u 1
