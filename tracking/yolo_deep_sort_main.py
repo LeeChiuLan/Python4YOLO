@@ -225,7 +225,8 @@ def detect_camera(net):
         #----
         if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
             break
-        if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
+        if cv2.getWindowProperty('result', 1) < 0:  # close windows using close "X" button
+            gc.collect()
             break
 
     fps_imutils.stop()
@@ -278,7 +279,7 @@ def detect_video( net, video_path):
         #----
         if cv2.waitKey(1) & 0xFF == 27 :   # [ESC] keys
             break
-        if cv2.getWindowProperty('result', 0) < 0:  # close windows using close "X" button
+        if cv2.getWindowProperty("result",1) < 0:  # close windows using close "X" button
             break
 				
     cap.release()
